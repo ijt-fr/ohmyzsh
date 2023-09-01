@@ -60,6 +60,7 @@ git_super_status() {
     precmd_update_git_vars
     if [ -n "$__CURRENT_GIT_STATUS" ]; then
       STATUS="$ZSH_THEME_GIT_PROMPT_PREFIX$ZSH_THEME_GIT_PROMPT_BRANCH$GIT_BRANCH$GIT_UPSTREAM%{${reset_color}%}"
+      STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_SEPARATOR"
       if [ "$GIT_BEHIND" -ne "0" ] && [ "$GIT_AHEAD" -ne "0" ]; then
           STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_DIVERGED%{${reset_color}%}"
       elif [ "$GIT_BEHIND" -ne "0" ]; then
@@ -67,7 +68,6 @@ git_super_status() {
       elif [ "$GIT_AHEAD" -ne "0" ]; then
           STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_AHEAD%{${reset_color}%}"
       fi
-      STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_SEPARATOR"
       if [ "$GIT_STAGED" -ne "0" ]; then
           STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_STAGED%{${reset_color}%}"
       fi
@@ -86,7 +86,7 @@ git_super_status() {
       if [ "$GIT_STASHED" -ne "0" ]; then
           STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_STASHED%{${reset_color}%}"
       fi
-      if [ "$GIT_CLEAN" -eq "1" ]; then
+      if [ "$GIT_CLEAN" -eq "1" ] && [ "$GIT_BEHIND" -eq "0" ] && [ "$GIT_AHEAD" -eq "0" ]; then
           STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_CLEAN"
       fi
       STATUS="$STATUS%{${reset_color}%}$ZSH_THEME_GIT_PROMPT_SUFFIX"
